@@ -1,0 +1,86 @@
+﻿@model IEnumerable<Procs.Models.Producto>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Stored Procedures";
+}
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" />
+
+<h1 class="text-center" style="color:blue">
+    <strong>@ViewData["Title"]</strong>
+</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<input type="button" class="btn btn-success btn-sm" value="Exportar data a Excel" onclick="DescargarExcel()" />
+
+<div class="table-responsive text-nowrap">
+    <form asp-controller="Home" asp-action="ExportarProductosExcel" id="FormChecks">
+        <table class="table table-bordered table-hover table-sm table-responsive">
+            <thead class="text-center thead-dark">
+                <tr>
+                    <th>
+                        <input type="checkbox" checked name="nombrePropiedades" value="Id" />
+                    </th>
+                    <th>
+                        <input type="checkbox" checked name="nombrePropiedades" value="Nombre" />
+                    </th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </strong>
+                        </td>
+                        <td>
+                            <strong>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </strong>
+                        </td>
+                        <td>
+                            <strong>
+                                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            </strong>
+                            <strong>
+                                <a class="btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            </strong>
+                            <strong>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </strong>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form>
+</div>
+
+
+@section Scripts{
+    <script>
+
+        function DescargarExcel() {
+            var frmReporte = document.getElementById("FormChecks");
+            frmReporte.submit();
+        }
+
+    </script>
+}
+
